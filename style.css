@@ -67,4 +67,28 @@ transition: all 0.5s ease-in-out; /* Suaviza mudanças de cor, brilho e posiçã
         0 0 20px #00aeff, 
         0 0 30px #00aeff;
 transition: all 0.5s ease-in-out; /* Suaviza mudanças de cor, brilho e posição */
+
+
+/* Animação de tremor (Dano) */
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  100% { transform: translate(1px, -2px) rotate(0deg); }
+}
+
+/* Classe que aplica o tremor */
+.shake-effect {
+  animation: shake 0.5s;
+}
+
+/* Efeito de Flash no Texto */
+.flash-red { color: #ff0000 !important; text-shadow: 0 0 20px #ff0000 !important; }
+.flash-green { color: #00ff00 !important; text-shadow: 0 0 20px #00ff00 !important; }
+
+/* Transição suave para o retorno da cor original */
+#vida {
+  transition: all 0.3s ease;
 }
