@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle RPG</title>
+    <style>
+        /* Estilo base idêntico ao print enviado */
+        body {
+            background-color: #0d0d0d;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Caixas de conteúdo (Card style) */
+        .card {
+            background-color: #161616;
+            border: 1px solid #2a2a2a;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .card-header {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 10px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* Inputs de Texto escuros */
+        input[type="text"], input[type="number"] {
+            background-color: #252525;
+            border: 1px solid #333;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            width: 90%;
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+        
+        input[type="text"]:focus, input[type="number"]:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        /* Botões */
+        button {
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        button:active { transform: scale(0.95); }
+
+        .btn-load { background-color: #5f6368; width: 100%; margin-top: 5px; }
+        .btn-red { background-color: #dc3545; }
+        .btn-green { background-color: #28a745; }
+        .btn-blue { background-color: #007bff; }
+
+        /* Layout dos botões de vida e PD */
+        .btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .vida-display { font-size: 24px; font-weight: bold; margin: 5px 0; }
+        
+        /* Destaque para a conexão ativa */
+        .active-border { border-color: #0056b3; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <div class="card active-border">
+            <div class="card-header">Conectar ao Personagem</div>
+            <input type="text" id="charIdInput" value="leonor">
+            <button class="btn-load" onclick="mudarPersonagem()">Carregar / Criar</button>
+        </div>
+
+        <div id="controls" style="opacity: 0.5; pointer-events: none; transition: opacity 0.3s;">
+            
+            <div class="card">
+                <div class="card-header">Dados Básicos</div>
+                <input type="text" id="inputNome" placeholder="Nome do Personagem" onchange="atualizarCampo('nome', this.value)">
+                <input type="text" id="inputImg" placeholder="Arquivo da Imagem (ex: leonor.png)" onchange="atualizarCampo('imagem', this.value)">
+            </div>
+
+            <div class="card">
+                <div class="card-header">Vida</div>
+                <div class="vida-display" id="displayVida">-- / --</div>
+                
+                <div class="btn-row">
+                    <button class="btn-red" onclick="alterarVida(-5)">-5</button>
+                    <button class="btn-red" onclick="alterarVida(-1)">-1</button>
+                    <button class="btn-green" onclick="alterarVida(1)">+1</button>
+                    <button class="btn-green" onclick="alterarVida(5)">+5</button>
+                </div>
+
+                <div class="btn-row">
+                    <input type="number" id="inputVidaAtual" placeholder="Atual" onchange="atualizarCampo('vidaAtual', Number(this.value))" style="width: 30%">
+                    <span style="font-size: 20px; color:#555">/</span>
+                    <input type="number" id="inputVidaMax" placeholder="Máx" onchange="atualizarCampo('vidaMax', Number(this.value))" style="width: 30%">
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">Pontos de Determinação</div>
+                <div class="btn-row">
+                    <button class="btn-red" onclick="alterarPD(-1)" style="width: 50px">-</button>
+                    <input type="number" id="inputPD" style="width: 60px; font-size: 22px; font-weight: bold; margin:0;" readonly>
+                    <button class="btn-blue" onclick="alterarPD(1)" style="width: 50px">+</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, update, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyCWRP5BsWjumVk2ocmOkLdYRPEqGMYhKag",
+          authDomain: "overlay-eec76.firebaseapp.com",
+          databaseURL: "https://overlay-eec76-default-rtdb.firebaseio.com",
+          projectId: "overlay-eec76",
+          storageBucket: "overlay-eec76.firebasestorage.app",
+          messagingSenderId: "385076082002",
+          appId: "1:385076082002:web:3fd19771e36575e61cf68b"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        
+        let charId = "leonor";
+        let charData = {};
+
+        // Funções globais para o HTML acessar
+        window.mudarPersonagem = function() {
+            charId = document.getElementById("charIdInput").value || "padrao";
+            iniciarListener();
+        }
+
+        function iniciarListener() {
+            const charRef = ref(db, 'personagens/' + charId);
+            
+            // Ativa visualmente os controles
+            document.getElementById("controls").style.opacity = "1";
+            document.getElementById("controls").style.pointerEvents = "all";
+
+            onValue(charRef, (snapshot) => {
+                charData = snapshot.val() || {};
+                
+                // Popula os campos
+                document.getElementById("inputNome").value = charData.nome || "";
+                document.getElementById("inputImg").value = charData.imagem || "";
+                
+                document.getElementById("inputVidaAtual").value = charData.vidaAtual || 0;
+                document.getElementById("inputVidaMax").value = charData.vidaMax || 0;
+                document.getElementById("displayVida").innerText = `${charData.vidaAtual || 0} / ${charData.vidaMax || 0}`;
+                
+                document.getElementById("inputPD").value = charData.pd || 0;
+            });
+        }
+
+        window.atualizarCampo = function(campo, valor) {
+            update(ref(db, 'personagens/' + charId), { [campo]: valor });
+        }
+
+        window.alterarVida = function(qtd) {
+            const novaVida = (charData.vidaAtual || 0) + qtd;
+            atualizarCampo('vidaAtual', novaVida);
+        }
+
+        window.alterarPD = function(qtd) {
+            const novoPD = (charData.pd || 0) + qtd;
+            // Se quiser impedir números negativos, descomente a linha abaixo:
+            // if (novoPD < 0) return; 
+            atualizarCampo('pd', novoPD);
+        }
+
+        // Auto-carregar ao abrir
+        mudarPersonagem();
+    </script>
+</body>
+</html>
