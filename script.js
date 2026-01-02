@@ -1,6 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
+// Configurações do seu projeto
 const firebaseConfig = {
   apiKey: "AIzaSyCWRP5BsWjumVk2ocmOkLdYRPEqGMYhKag",
   authDomain: "overlay-eec76.firebaseapp.com",
@@ -14,49 +15,58 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
+// Identifica o personagem pelo link (ex: ?id=leonor)
 const params = new URLSearchParams(window.location.search);
 const charId = params.get('id') || 'leonor';
 const charRef = ref(db, 'personagens/' + charId);
 
-// Variável para guardar a vida anterior e comparar
 let vidaAnterior = null;
 
 onValue(charRef, (snapshot) => {
     const dados = snapshot.val();
-    if (dados) {
-        const vidaAtual = dados.vidaAtual || 0;
-        const vidaMax = dados.vidaMax || 0;
-        const vidaElement = document.getElementById("vida");
-        const fotoElement = document.getElementById("foto");
+    if (!dados) return;
 
-        // Detecta mudança na vida para aplicar efeitos
-        if (vidaAnterior !== null && vidaAnterior !== vidaAtual) {
-            if (vidaAtual < vidaAnterior) {
-                // EFEITO DE DANO
-                fotoElement.classList.add("shake-effect");
-                vidaElement.classList.add("flash-red");
-            } else {
-                // EFEITO DE CURA
-                vidaElement.classList.add("flash-green");
-            }
+    const vidaAtual = dados.vidaAtual || 0;
+    const vidaMax = dados.vidaMax || 0;
+    const vidaElement = document.getElementById("vida");
+    const fotoElement = document.getElementById("foto");
 
-            // Remove os efeitos após 500ms para poderem ser usados de novo
-            setTimeout(() => {
-                fotoElement.classList.remove("shake-effect");
-                vidaElement.classList.remove("flash-red");
-                vidaElement.classList.remove("flash-green");
-            }, 500);
-        }
-
-        vidaAnterior = vidaAtual; // Atualiza a referência
-
-        // Atualização normal dos textos
-        document.getElementById("nome").innerText = dados.nome || "---";
-        vidaElement.innerText = `${vidaAtual}/${vidaMax}`;
-        document.getElementById("pd").innerText = dados.pd || 0;
+    // Lógica de Efeitos Visuais
+    if (vidaAnterior !== null && vidaAnterior !== vidaAtual) {
         
-        if (dados.imagem && fotoElement.getAttribute('src') !== dados.imagem) {
-            fotoElement.src = dados.imagem;
+        // Remove classes para poder reiniciar a animação
+        fotoElement.classList.remove("shake-effect");
+        vidaElement.classList.remove("flash-red", "flash-green");
+        
+        // Truque para resetar animação CSS
+        void fotoElement.offsetWidth; 
+        void vidaElement.offsetWidth;
+
+        if (vidaAtual < vidaAnterior) {
+            // Sofreu Dano
+            fotoElement.classList.add("shake-effect");
+            vidaElement.classList.add("flash-red");
+        } else {
+            // Recebeu Cura
+            vidaElement.classList.add("flash-green");
         }
+
+        // Limpa o brilho após o efeito
+        setTimeout(() => {
+            vidaElement.classList.remove("flash-red", "flash-green");
+            fotoElement.classList.remove("shake-effect");
+        }, 450);
+    }
+
+    vidaAnterior = vidaAtual;
+
+    // Atualiza Textos
+    document.getElementById("nome").innerText = dados.nome || "---";
+    vidaElement.innerText = `${vidaAtual}/${vidaMax}`;
+    document.getElementById("pd").innerText = dados.pd || 0;
+    
+    // Atualiza Imagem
+    if (dados.imagem && fotoElement.getAttribute('src') !== dados.imagem) {
+        fotoElement.src = dados.imagem;
     }
 });
