@@ -6,72 +6,74 @@ body {
     background: transparent; 
     font-family: 'Anton', sans-serif;
     overflow: hidden;
-    width: 1920px; /* Força o tamanho padrão de stream */
+    width: 1920px;
     height: 1080px;
 }
 
 #overlay {
-    position: absolute;
-    bottom: 50px; /* Ajusta a altura da base da overlay */
-    left: 50px;
-    display: flex;
-    align-items: flex-end; /* Alinha o texto na base da imagem */
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
-/* IMAGEM DO PERSONAGEM */
+/* IMAGEM DO PERSONAGEM - Posição fixa no canto */
 #foto {
-    width: 380px; /* Tamanho real da personagem */
+    position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 320px; /* Ajustado para não ocupar a tela toda */
     height: auto;
-    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.7)); /* Brilho vermelho */
+    filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.7)); /* Brilho vermelho na foto */
     z-index: 2;
 }
 
-/* GRUPO DE TEXTO AO LADO DA IMAGEM */
+/* GRUPO DE TEXTO - Agora colado na imagem */
 .info-direita {
-    margin-left: -30px; /* Faz o texto sobrepor levemente a imagem */
-    margin-bottom: 60px; /* Sobe o texto para o meio da altura da foto */
+    position: absolute;
+    top: 180px; /* Ajuste para alinhar com o ombro do personagem */
+    left: 330px; /* Colado no lado direito da foto */
     z-index: 3;
     text-align: left;
 }
 
 #nome {
-    font-size: 80px; /* Tamanho grande para o nome */
+    font-size: 70px;
     color: white;
     text-transform: uppercase;
-    line-height: 0.7;
+    line-height: 0.8;
     margin: 0;
-    text-shadow: 4px 4px 10px rgba(0, 0, 0, 1); /* Sombra preta pesada */
+    /* Sombra preta pesada como no print */
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 1);
 }
 
 #vida {
-    font-size: 110px; /* Vida bem grande */
+    font-size: 100px;
     color: white;
     line-height: 0.9;
     margin: 0;
-    text-shadow: 5px 5px 15px rgba(0, 0, 0, 1); /* Sombra preta pesada */
+    /* Sombra preta pesada */
+    text-shadow: 5px 5px 15px rgba(0, 0, 0, 1);
 }
 
-/* PD (AZUL NO CANTO INFERIOR ESQUERDO) */
+/* PD (AZUL NO PÉ DA IMAGEM) */
 #pd {
     position: absolute;
-    bottom: 30px; /* Colado no pé da imagem */
-    left: 20px;
-    font-size: 50px;
-    color: #00e5ff; /* Azul Ciano idêntico à imagem */
+    top: 360px; /* Logo abaixo da foto */
+    left: 70px;
+    font-size: 45px;
+    color: #00e5ff; /* Azul Ciano */
     font-weight: bold;
     z-index: 10;
-    text-shadow: 0 0 15px rgba(0, 229, 255, 0.8), 2px 2px 5px black;
+    text-shadow: 0 0 10px rgba(0, 229, 255, 0.8), 2px 2px 5px black;
 }
 
-/* EFEITOS DE DANO */
+/* ANIMAÇÕES DE IMPACTO */
 .shake-effect { animation: shake 0.4s both; }
 @keyframes shake {
     0% { transform: translate(0,0); }
-    25% { transform: translate(-5px, 5px); }
-    50% { transform: translate(5px, -5px); }
-    75% { transform: translate(-5px, -5px); }
+    25% { transform: translate(-4px, 4px); }
+    50% { transform: translate(4px, -4px); }
     100% { transform: translate(0,0); }
 }
-
-.flash-red { color: #ff0000 !important; text-shadow: 0 0 30px #ff0000 !important; }
-.flash-green { color: #00ff00 !important; text-shadow: 0 0 30px #00ff00 !important; }
+.flash-red { color: #ff0000 !important; }
+.flash-green { color: #00ff00 !important; }
