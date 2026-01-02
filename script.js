@@ -1,8 +1,7 @@
-// Importando via CDN para funcionar direto no navegador/OBS
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-// SUAS CONFIGURAÇÕES REAIS (Copiadas da imagem)
+// Configurações reais do seu Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCWRP5BsWjumVk2ocmOkLdYRPEqGMYhKag",
   authDomain: "overlay-eec76.firebaseapp.com",
@@ -13,39 +12,25 @@ const firebaseConfig = {
   appId: "1:385076082002:web:3fd19771e36575e61cf68b"
 };
 
-// Inicializa Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Pega o ID da URL (ex: index.html?id=leonor)
+// Pega o ID da URL. Ex: index.html?id=leonor
 const params = new URLSearchParams(window.location.search);
-const charId = params.get('id') || 'padrao';
+const charId = params.get('id') || 'leonor'; 
 
 const charRef = ref(db, 'personagens/' + charId);
-console.log(`Conectado ao personagem: ${charId}`);
 
-// Escuta as mudanças em TEMPO REAL
 onValue(charRef, (snapshot) => {
     const dados = snapshot.val();
-
     if (dados) {
-        // Atualiza Nome e textos com fallback seguro
-        document.getElementById("nome").innerText = dados.nome || "Sem Nome";
+        document.getElementById("nome").innerText = dados.nome || "---";
+        document.getElementById("vida").innerText = `${dados.vidaAtual || 0}/${dados.vidaMax || 0}`;
+        document.getElementById("pd").innerText = dados.pd || 0;
         
-        const vidaAtual = dados.vidaAtual !== undefined ? dados.vidaAtual : 0;
-        const vidaMax = dados.vidaMax !== undefined ? dados.vidaMax : 0;
-        document.getElementById("vida").innerText = `${vidaAtual}/${vidaMax}`;
-        
-        document.getElementById("pd").innerText = dados.pd !== undefined ? dados.pd : 0;
-
-        // Atualiza Imagem apenas se mudar (evita piscar)
         const fotoElement = document.getElementById("foto");
-        const novaImagem = dados.imagem || "Armature_IDLE_00.png";
-        
-        if (fotoElement.getAttribute('src') !== novaImagem) {
-            fotoElement.src = novaImagem;
+        if (dados.imagem && fotoElement.getAttribute('src') !== dados.imagem) {
+            fotoElement.src = dados.imagem;
         }
-    } else {
-        console.log("Nenhum dado encontrado. Painel deve criar os dados.");
     }
 });
