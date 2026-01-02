@@ -14,20 +14,47 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Pega o ID da URL (?id=leonor)
 const params = new URLSearchParams(window.location.search);
 const charId = params.get('id') || 'leonor';
-
 const charRef = ref(db, 'personagens/' + charId);
+
+// Variável para guardar a vida anterior e comparar
+let vidaAnterior = null;
 
 onValue(charRef, (snapshot) => {
     const dados = snapshot.val();
     if (dados) {
+        const vidaAtual = dados.vidaAtual || 0;
+        const vidaMax = dados.vidaMax || 0;
+        const vidaElement = document.getElementById("vida");
+        const fotoElement = document.getElementById("foto");
+
+        // Detecta mudança na vida para aplicar efeitos
+        if (vidaAnterior !== null && vidaAnterior !== vidaAtual) {
+            if (vidaAtual < vidaAnterior) {
+                // EFEITO DE DANO
+                fotoElement.classList.add("shake-effect");
+                vidaElement.classList.add("flash-red");
+            } else {
+                // EFEITO DE CURA
+                vidaElement.classList.add("flash-green");
+            }
+
+            // Remove os efeitos após 500ms para poderem ser usados de novo
+            setTimeout(() => {
+                fotoElement.classList.remove("shake-effect");
+                vidaElement.classList.remove("flash-red");
+                vidaElement.classList.remove("flash-green");
+            }, 500);
+        }
+
+        vidaAnterior = vidaAtual; // Atualiza a referência
+
+        // Atualização normal dos textos
         document.getElementById("nome").innerText = dados.nome || "---";
-        document.getElementById("vida").innerText = `${dados.vidaAtual || 0}/${dados.vidaMax || 0}`;
+        vidaElement.innerText = `${vidaAtual}/${vidaMax}`;
         document.getElementById("pd").innerText = dados.pd || 0;
         
-        const fotoElement = document.getElementById("foto");
         if (dados.imagem && fotoElement.getAttribute('src') !== dados.imagem) {
             fotoElement.src = dados.imagem;
         }
