@@ -1,90 +1,138 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
-/* style.css */
+
 
 body {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: transparent;
-    /* Fonte idêntica ao peso da imagem */
-    font-family: "Arial Black", Gadget, sans-serif; 
+
+margin: 0;
+
+padding: 0;
+
+background: transparent; /* Fundamental para o OBS */
+
+font-family: 'Anton', sans-serif;
+
+overflow: hidden;
+
 }
+
+
 
 #overlay {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
+
+position: relative;
+
+display: inline-flex;
+
+align-items: flex-end;
+
+padding: 10px;
+
 }
+
+
+
+/* IMAGEM DO PERSONAGEM */
 
 #foto {
-    position: absolute;
-    top: 50px;
-    left: 100px;
-    width: 400px;
-    /* Brilho vermelho suave ao redor da personagem */
-    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
+
+width: 180px;
+
+height: auto;
+
+/* Brilho vermelho atrás da imagem */
+
+filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.8));
+
+z-index: 2;
+
 }
+
+
+
+/* GRUPO DE TEXTO COLADO NA IMAGEM */
 
 .info-direita {
-    position: absolute;
-    top: 540px;
-    left: 600px;
-    text-align: left;
+
+margin-left: -40px; /* Puxa o texto para perto da imagem */
+
+margin-bottom: 25px;
+
+z-index: 3;
+
+text-align: left;
+
 }
+
+
 
 #nome {
-    color: white;
-    font-size: 80px;
-    font-weight: 900;
-    text-transform: uppercase;
-    /* Sombra projetada para destacar do fundo */
-    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
-    margin: 0;
-    line-height: 0.8;
+
+font-size: 20px;
+
+color: white;
+
+text-transform: uppercase;
+
+line-height: 0.8;
+
+margin-bottom: -2px;
+
+/* Brilho Vermelho estilo Aguiar */
+
+text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
+
+transition: all 0.5s ease-in-out; /* Suaviza mudanças de cor, brilho e posição */
+
 }
+
+
 
 #vida {
-    color: white; /* Branco como na imagem */
-    font-size: 110px;
-    font-weight: 900;
-    /* Sombra projetada idêntica ao print */
-    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.9);
-    margin: 0;
-    transition: all 0.2s ease;
+
+font-size: 20px;
+
+color: white;
+
+line-height: 0.9;
+
+/* Brilho Vermelho intenso na vida */
+
+text-shadow: 0 0 12px #ff0000, 0 0 25px #ff0000, 0 0 35px #ff0000;
+
+transition: all 0.5s ease-in-out; /* Suaviza mudanças de cor, brilho e posição */
+
 }
+
+
+
+/* PD (AZUL NO CANTO INFERIOR ESQUERDO) */
 
 #pd {
-    position: absolute;
-    top: 840px;
-    left: 100px;
-    /* Cor Azul Ciano idêntica à imagem */
-    color: #00e5ff; 
-    font-size: 55px;
-    font-weight: bold;
-    /* Brilho externo no número azul */
-    text-shadow: 0 0 15px rgba(0, 229, 255, 0.6), 2px 2px 5px rgba(0,0,0,0.5);
-}
 
-/* --- ANIMAÇÕES DE DANO (OPCIONAL MAS MANTIDO) --- */
+position: absolute; /* Fixa o PD em um lugar específico */
 
-.shake-effect {
-  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
-}
+bottom: 10px; /* Distância do fundo da imagem */
 
-@keyframes shake {
-  10%, 90% { transform: translate3d(-1px, 0, 0); }
-  20%, 80% { transform: translate3d(2px, 0, 0); }
-  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-  40%, 60% { transform: translate3d(4px, 0, 0); }
-}
+left: 10px; /* Distância do lado esquerdo da imagem */
 
-.flash-red { 
-    color: #ff3333 !important; 
-    text-shadow: 0 0 30px #ff0000 !important;
-}
+font-size: 20px; /* Tamanho da fonte que você escolheu */
 
-.flash-green { 
-    color: #33ff33 !important; 
-    text-shadow: 0 0 30px #00ff00 !important;
-}
+color: white; /* Cor do número */
+
+z-index: 10; /* Garante que ele apareça na frente de tudo */
+
+
+/* Brilho Azul intenso estilo Aguiar */
+
+text-shadow:
+
+0 0 10px #00aeff,
+
+0 0 20px #00aeff,
+
+0 0 30px #00aeff;
+
+transition: all 0.5s ease-in-out; /* Suaviza mudanças de cor, brilho e posição */
+
+}r
