@@ -1,138 +1,84 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
-
-
 body {
-
-margin: 0;
-
-padding: 0;
-
-background: transparent; /* Fundamental para o OBS */
-
-font-family: 'Anton', sans-serif;
-
-overflow: hidden;
-
+    margin: 0;
+    padding: 0;
+    background: transparent; 
+    font-family: 'Anton', sans-serif; /* Fonte robusta similar à imagem */
+    overflow: hidden;
 }
-
-
 
 #overlay {
-
-position: relative;
-
-display: inline-flex;
-
-align-items: flex-end;
-
-padding: 10px;
-
+    position: relative;
+    width: 100vw;
+    height: 100vh;
 }
-
-
 
 /* IMAGEM DO PERSONAGEM */
-
 #foto {
-
-width: 180px;
-
-height: auto;
-
-/* Brilho vermelho atrás da imagem */
-
-filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.8));
-
-z-index: 2;
-
+    position: absolute;
+    top: 50px;
+    left: 100px;
+    width: 400px; /* Aumentado para o tamanho da imagem */
+    height: auto;
+    /* Brilho vermelho apenas atrás da imagem, como no print */
+    filter: drop-shadow(0 0 25px rgba(255, 0, 0, 0.6));
+    z-index: 2;
 }
 
-
-
-/* GRUPO DE TEXTO COLADO NA IMAGEM */
-
+/* GRUPO DE TEXTO */
 .info-direita {
-
-margin-left: -40px; /* Puxa o texto para perto da imagem */
-
-margin-bottom: 25px;
-
-z-index: 3;
-
-text-align: left;
-
+    position: absolute;
+    top: 520px; /* Posicionado à direita e abaixo conforme o print */
+    left: 580px;
+    z-index: 3;
+    text-align: left;
 }
-
-
 
 #nome {
-
-font-size: 20px;
-
-color: white;
-
-text-transform: uppercase;
-
-line-height: 0.8;
-
-margin-bottom: -2px;
-
-/* Brilho Vermelho estilo Aguiar */
-
-text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000;
-
-transition: all 0.5s ease-in-out; /* Suaviza mudanças de cor, brilho e posição */
-
+    font-size: 85px; /* Tamanho grande para destaque */
+    color: white; /* Branco puro */
+    text-transform: uppercase;
+    line-height: 0.8;
+    margin-bottom: -10px;
+    /* Sombra preta densa para leitura, sem o brilho vermelho */
+    text-shadow: 4px 4px 15px rgba(0, 0, 0, 0.9);
 }
-
-
 
 #vida {
-
-font-size: 20px;
-
-color: white;
-
-line-height: 0.9;
-
-/* Brilho Vermelho intenso na vida */
-
-text-shadow: 0 0 12px #ff0000, 0 0 25px #ff0000, 0 0 35px #ff0000;
-
-transition: all 0.5s ease-in-out; /* Suaviza mudanças de cor, brilho e posição */
-
+    font-size: 115px; /* Vida é o maior elemento */
+    color: white; /* Branco puro */
+    line-height: 0.9;
+    /* Sombra preta densa idêntica ao print */
+    text-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
 }
 
-
-
-/* PD (AZUL NO CANTO INFERIOR ESQUERDO) */
-
+/* PD (AZUL NO CANTO INFERIOR) */
 #pd {
+    position: absolute;
+    top: 820px; /* Posicionado no canto conforme a imagem */
+    left: 100px;
+    font-size: 55px; /* Tamanho ajustado */
+    color: #00e5ff; /* Cor ciano exata da imagem */
+    font-weight: bold;
+    z-index: 10;
+    /* Brilho azul neon */
+    text-shadow: 0 0 15px rgba(0, 229, 255, 0.7), 2px 2px 10px rgba(0, 0, 0, 0.5);
+}
 
-position: absolute; /* Fixa o PD em um lugar específico */
+/* ANIMAÇÕES DE IMPACTO (Mantidas para o efeito de dano) */
+.shake-effect {
+    animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
 
-bottom: 10px; /* Distância do fundo da imagem */
+@keyframes shake {
+    0% { transform: translate(1px, 1px); }
+    20% { transform: translate(-3px, 0); }
+    40% { transform: translate(3px, 2px); }
+    60% { transform: translate(-3px, 1px); }
+    80% { transform: translate(3px, -1px); }
+    100% { transform: translate(1px, -2px); }
+}
 
-left: 10px; /* Distância do lado esquerdo da imagem */
-
-font-size: 20px; /* Tamanho da fonte que você escolheu */
-
-color: white; /* Cor do número */
-
-z-index: 10; /* Garante que ele apareça na frente de tudo */
-
-
-/* Brilho Azul intenso estilo Aguiar */
-
-text-shadow:
-
-0 0 10px #00aeff,
-
-0 0 20px #00aeff,
-
-0 0 30px #00aeff;
-
-transition: all 0.5s ease-in-out; /* Suaviza mudanças de cor, brilho e posição */
-
-}r
+.flash-red { color: #ff3333 !important; text-shadow: 0 0 30px #ff0000 !important; }
+.flash-green { color: #33ff33 !important; text-shadow: 0 0 30px #00ff00 !important; }
