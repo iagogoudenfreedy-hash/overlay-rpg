@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-// Configurações reais do seu Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCWRP5BsWjumVk2ocmOkLdYRPEqGMYhKag",
   authDomain: "overlay-eec76.firebaseapp.com",
@@ -15,9 +14,9 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Pega o ID da URL. Ex: index.html?id=leonor
+// Pega o ID da URL (?id=leonor)
 const params = new URLSearchParams(window.location.search);
-const charId = params.get('id') || 'leonor'; 
+const charId = params.get('id') || 'leonor';
 
 const charRef = ref(db, 'personagens/' + charId);
 
