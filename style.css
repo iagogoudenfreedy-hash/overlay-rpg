@@ -1,11 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
 
-/* Configuração Geral do Fundo */
+/* style.css */
+
 body {
     margin: 0;
+    padding: 0;
     overflow: hidden;
-    font-family: 'Arial Black', 'Arial', sans-serif; /* Fonte mais grossa como no print */
-    background: transparent;
+    background-color: transparent;
+    /* Fonte idêntica ao peso da imagem */
+    font-family: "Arial Black", Gadget, sans-serif; 
 }
 
 #overlay {
@@ -14,78 +17,74 @@ body {
     height: 100vh;
 }
 
-/* Personagem e Brilho Vermelho */
 #foto {
     position: absolute;
     top: 50px;
     left: 100px;
     width: 400px;
-    filter: drop-shadow(0 0 25px rgba(255, 0, 0, 0.6)); /* Brilho vermelho ao redor */
+    /* Brilho vermelho suave ao redor da personagem */
+    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.5));
 }
 
-/* Posicionamento dos Textos à Direita */
 .info-direita {
     position: absolute;
-    top: 520px;
-    left: 580px;
-    color: white; /* Cor branca padrão */
+    top: 540px;
+    left: 600px;
     text-align: left;
 }
 
-/* Estilo do Nome */
 #nome {
-    font-size: 85px;
+    color: white;
+    font-size: 80px;
     font-weight: 900;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: 4px 4px 15px rgba(0,0,0,0.9); /* Sombra forte para leitura */
-    margin-bottom: -15px;
+    /* Sombra projetada para destacar do fundo */
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.8);
+    margin: 0;
+    line-height: 0.8;
 }
 
-/* Estilo da Vida */
 #vida {
-    font-size: 115px;
+    color: white; /* Branco como na imagem */
+    font-size: 110px;
     font-weight: 900;
-    text-shadow: 4px 4px 15px rgba(0,0,0,0.9); /* Sombra forte */
-    transition: all 0.2s ease-in-out;
+    /* Sombra projetada idêntica ao print */
+    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.9);
+    margin: 0;
+    transition: all 0.2s ease;
 }
 
-/* Pontos de Determinação no Canto */
 #pd {
     position: absolute;
-    bottom: 50px;
-    left: 80px;
+    top: 840px;
+    left: 100px;
+    /* Cor Azul Ciano idêntica à imagem */
+    color: #00e5ff; 
     font-size: 55px;
-    color: #00e5ff; /* Azul ciano */
     font-weight: bold;
-    text-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+    /* Brilho externo no número azul */
+    text-shadow: 0 0 15px rgba(0, 229, 255, 0.6), 2px 2px 5px rgba(0,0,0,0.5);
 }
 
-/* --- ANIMAÇÕES DE IMPACTO --- */
-
-/* Tremor para quando tomar dano */
-@keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  20% { transform: translate(-6px, 0px) rotate(1deg); }
-  40% { transform: translate(6px, 4px) rotate(-1deg); }
-  60% { transform: translate(-6px, 2px) rotate(0deg); }
-  80% { transform: translate(6px, -2px) rotate(1deg); }
-  100% { transform: translate(1px, -4px) rotate(0deg); }
-}
+/* --- ANIMAÇÕES DE DANO (OPCIONAL MAS MANTIDO) --- */
 
 .shake-effect {
   animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
 }
 
-/* Flashes de Cor que ativam apenas no impacto */
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+
 .flash-red { 
     color: #ff3333 !important; 
-    text-shadow: 0 0 40px #ff0000, 0 0 80px #ff0000 !important;
-    transform: scale(1.1);
+    text-shadow: 0 0 30px #ff0000 !important;
 }
 
 .flash-green { 
     color: #33ff33 !important; 
-    text-shadow: 0 0 40px #00ff00, 0 0 80px #00ff00 !important;
-    transform: scale(1.1);
+    text-shadow: 0 0 30px #00ff00 !important;
 }
