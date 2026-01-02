@@ -1,7 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-// Configurações do seu projeto
 const firebaseConfig = {
   apiKey: "AIzaSyCWRP5BsWjumVk2ocmOkLdYRPEqGMYhKag",
   authDomain: "overlay-eec76.firebaseapp.com",
@@ -15,7 +14,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-// Identifica o personagem pelo link (ex: ?id=leonor)
 const params = new URLSearchParams(window.location.search);
 const charId = params.get('id') || 'leonor';
 const charRef = ref(db, 'personagens/' + charId);
@@ -31,27 +29,27 @@ onValue(charRef, (snapshot) => {
     const vidaElement = document.getElementById("vida");
     const fotoElement = document.getElementById("foto");
 
-    // Lógica de Efeitos Visuais
+    // Aciona efeitos apenas se o valor MUDAR
     if (vidaAnterior !== null && vidaAnterior !== vidaAtual) {
         
-        // Remove classes para poder reiniciar a animação
+        // Reseta as animações
         fotoElement.classList.remove("shake-effect");
         vidaElement.classList.remove("flash-red", "flash-green");
         
-        // Truque para resetar animação CSS
+        // Força o navegador a reiniciar o ciclo de animação
         void fotoElement.offsetWidth; 
         void vidaElement.offsetWidth;
 
         if (vidaAtual < vidaAnterior) {
-            // Sofreu Dano
+            // Dano detectado
             fotoElement.classList.add("shake-effect");
             vidaElement.classList.add("flash-red");
         } else {
-            // Recebeu Cura
+            // Cura detectada
             vidaElement.classList.add("flash-green");
         }
 
-        // Limpa o brilho após o efeito
+        // Remove os efeitos visuais após a animação acabar
         setTimeout(() => {
             vidaElement.classList.remove("flash-red", "flash-green");
             fotoElement.classList.remove("shake-effect");
@@ -60,12 +58,11 @@ onValue(charRef, (snapshot) => {
 
     vidaAnterior = vidaAtual;
 
-    // Atualiza Textos
+    // Atualiza os elementos na tela
     document.getElementById("nome").innerText = dados.nome || "---";
     vidaElement.innerText = `${vidaAtual}/${vidaMax}`;
     document.getElementById("pd").innerText = dados.pd || 0;
     
-    // Atualiza Imagem
     if (dados.imagem && fotoElement.getAttribute('src') !== dados.imagem) {
         fotoElement.src = dados.imagem;
     }
