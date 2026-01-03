@@ -3,10 +3,10 @@
 body {
     margin: 0;
     padding: 0;
-    background: transparent; 
+    background: transparent;
     font-family: 'Anton', sans-serif;
     overflow: hidden;
-    /* Trava o tamanho em Full HD para evitar erros no OBS */
+    /* Trava o tamanho em Full HD para não desalinhar no OBS */
     width: 1920px;
     height: 1080px;
 }
@@ -22,9 +22,8 @@ body {
     position: absolute;
     top: 50px;
     left: 50px;
-    width: 350px; /* Tamanho ideal para overlay de canto */
+    width: 350px; /* Tamanho ajustado */
     height: auto;
-    /* Brilho vermelho suave atrás */
     filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.6));
     z-index: 2;
 }
@@ -32,9 +31,9 @@ body {
 /* GRUPO DE TEXTO (NOME E VIDA) */
 .info-direita {
     position: absolute;
-    /* Ajuste crucial: Sobe o texto para ficar ao lado do ombro da imagem */
+    /* Correção: Sobe o texto para a altura do ombro */
     top: 180px; 
-    /* Ajuste crucial: Aproxima o texto da imagem (antes estava 580px) */
+    /* Correção: Traz o texto para perto da imagem (estava 580px) */
     left: 360px; 
     z-index: 3;
     text-align: left;
@@ -46,7 +45,6 @@ body {
     text-transform: uppercase;
     line-height: 0.8;
     margin-bottom: -5px;
-    /* Sombra preta sólida para leitura */
     text-shadow: 4px 4px 10px rgba(0, 0, 0, 1);
 }
 
@@ -54,25 +52,24 @@ body {
     font-size: 110px;
     color: white;
     line-height: 0.9;
-    /* Sombra preta sólida */
     text-shadow: 5px 5px 15px rgba(0, 0, 0, 1);
     transition: all 0.2s ease;
 }
 
-/* PD (AZUL NO PÉ DA IMAGEM) */
+/* PD (AZUL) */
 #pd {
     position: absolute;
-    /* Ajuste crucial: Sobe o PD para logo abaixo da imagem (antes estava 820px) */
+    /* Correção: Sobe o PD para logo abaixo do pé da imagem (estava 820px) */
     top: 400px; 
     left: 80px;
     font-size: 55px;
-    color: #00e5ff; /* Ciano Neon */
+    color: #00e5ff;
     font-weight: bold;
     z-index: 10;
     text-shadow: 0 0 15px rgba(0, 229, 255, 0.7), 2px 2px 10px rgba(0, 0, 0, 0.8);
 }
 
-/* ANIMAÇÕES (Mantidas iguais) */
+/* ANIMAÇÕES */
 .shake-effect {
     animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
 }
