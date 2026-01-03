@@ -4,69 +4,75 @@ body {
     margin: 0;
     padding: 0;
     background: transparent; 
-    font-family: 'Anton', sans-serif; /* Fonte robusta similar à imagem */
+    font-family: 'Anton', sans-serif;
     overflow: hidden;
+    /* Trava o tamanho em Full HD para evitar erros no OBS */
+    width: 1920px;
+    height: 1080px;
 }
 
 #overlay {
     position: relative;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
 }
 
 /* IMAGEM DO PERSONAGEM */
 #foto {
     position: absolute;
     top: 50px;
-    left: 100px;
-    width: 400px; /* Aumentado para o tamanho da imagem */
+    left: 50px;
+    width: 350px; /* Tamanho ideal para overlay de canto */
     height: auto;
-    /* Brilho vermelho apenas atrás da imagem, como no print */
-    filter: drop-shadow(0 0 25px rgba(255, 0, 0, 0.6));
+    /* Brilho vermelho suave atrás */
+    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.6));
     z-index: 2;
 }
 
-/* GRUPO DE TEXTO */
+/* GRUPO DE TEXTO (NOME E VIDA) */
 .info-direita {
     position: absolute;
-    top: 520px; /* Posicionado à direita e abaixo conforme o print */
-    left: 580px;
+    /* Ajuste crucial: Sobe o texto para ficar ao lado do ombro da imagem */
+    top: 180px; 
+    /* Ajuste crucial: Aproxima o texto da imagem (antes estava 580px) */
+    left: 360px; 
     z-index: 3;
     text-align: left;
 }
 
 #nome {
-    font-size: 85px; /* Tamanho grande para destaque */
-    color: white; /* Branco puro */
+    font-size: 80px;
+    color: white;
     text-transform: uppercase;
     line-height: 0.8;
-    margin-bottom: -10px;
-    /* Sombra preta densa para leitura, sem o brilho vermelho */
-    text-shadow: 4px 4px 15px rgba(0, 0, 0, 0.9);
+    margin-bottom: -5px;
+    /* Sombra preta sólida para leitura */
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 1);
 }
 
 #vida {
-    font-size: 115px; /* Vida é o maior elemento */
-    color: white; /* Branco puro */
+    font-size: 110px;
+    color: white;
     line-height: 0.9;
-    /* Sombra preta densa idêntica ao print */
-    text-shadow: 5px 5px 15px rgba(0, 0, 0, 0.9);
+    /* Sombra preta sólida */
+    text-shadow: 5px 5px 15px rgba(0, 0, 0, 1);
+    transition: all 0.2s ease;
 }
 
-/* PD (AZUL NO CANTO INFERIOR) */
+/* PD (AZUL NO PÉ DA IMAGEM) */
 #pd {
     position: absolute;
-    top: 820px; /* Posicionado no canto conforme a imagem */
-    left: 100px;
-    font-size: 55px; /* Tamanho ajustado */
-    color: #00e5ff; /* Cor ciano exata da imagem */
+    /* Ajuste crucial: Sobe o PD para logo abaixo da imagem (antes estava 820px) */
+    top: 400px; 
+    left: 80px;
+    font-size: 55px;
+    color: #00e5ff; /* Ciano Neon */
     font-weight: bold;
     z-index: 10;
-    /* Brilho azul neon */
-    text-shadow: 0 0 15px rgba(0, 229, 255, 0.7), 2px 2px 10px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 0 15px rgba(0, 229, 255, 0.7), 2px 2px 10px rgba(0, 0, 0, 0.8);
 }
 
-/* ANIMAÇÕES DE IMPACTO (Mantidas para o efeito de dano) */
+/* ANIMAÇÕES (Mantidas iguais) */
 .shake-effect {
     animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
 }
