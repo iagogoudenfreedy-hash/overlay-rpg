@@ -3,10 +3,10 @@
 body {
     margin: 0;
     padding: 0;
-    background: transparent;
+    background: transparent; 
     font-family: 'Anton', sans-serif;
     overflow: hidden;
-    /* Garante que o layout não quebre em diferentes resoluções de OBS */
+    /* Força a resolução correta para o OBS não desalinhar os pixels */
     width: 1920px;
     height: 1080px;
 }
@@ -22,55 +22,57 @@ body {
     position: absolute;
     top: 50px;
     left: 50px;
-    width: 250px; /* Tamanho ajustado para o layout */
+    width: 300px; /* Tamanho ajustado para equilíbrio visual */
     height: auto;
-    filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.7)); /* Brilho vermelho */
+    /* Brilho vermelho apenas atrás da imagem */
+    filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.7));
     z-index: 2;
 }
 
 /* GRUPO DE TEXTO (NOME E VIDA) */
 .info-direita {
     position: absolute;
-    /* Traz o texto para o lado do personagem */
-    top: 160px; 
-    left: 280px; 
+    /* Traz o texto para o lado do personagem (reduzido de 580px) */
+    top: 150px; 
+    left: 320px; 
     z-index: 3;
     text-align: left;
 }
 
 #nome {
-    font-size: 65px;
+    font-size: 75px;
     color: white;
     text-transform: uppercase;
     line-height: 0.7;
     margin: 0;
-    /* Sombra preta para profundidade */
-    text-shadow: 3px 3px 8px rgba(0, 0, 0, 1);
+    /* Sombra preta pesada para destaque */
+    text-shadow: 4px 4px 10px rgba(0, 0, 0, 1);
 }
 
 #vida {
-    font-size: 90px;
+    font-size: 105px;
     color: white;
     line-height: 0.9;
     margin: 0;
-    /* Sombra preta pesada como na referência */
-    text-shadow: 4px 4px 12px rgba(0, 0, 0, 1);
+    /* Sombra preta pesada */
+    text-shadow: 5px 5px 15px rgba(0, 0, 0, 1);
 }
 
-/* PD (AZUL NO CANTO INFERIOR DA IMAGEM) */
+/* PD (AZUL CIANO NO CANTO INFERIOR DA IMAGEM) */
 #pd {
     position: absolute;
-    /* Colado abaixo da foto */
-    top: 320px; 
+    /* Colado logo abaixo da foto (reduzido de 820px) */
+    top: 360px; 
     left: 65px;
-    font-size: 45px;
-    color: #00e5ff; /* Azul Ciano idêntico */
+    font-size: 50px;
+    color: #00e5ff; /* Cor ciano exata da imagem */
     font-weight: bold;
     z-index: 10;
+    /* Brilho azul neon suave */
     text-shadow: 0 0 10px rgba(0, 229, 255, 0.8), 2px 2px 5px black;
 }
 
-/* EFEITOS DE IMPACTO */
+/* ANIMAÇÕES DE DANO */
 .shake-effect { animation: shake 0.4s both; }
 @keyframes shake {
     0% { transform: translate(0,0); }
@@ -78,5 +80,3 @@ body {
     50% { transform: translate(4px, -4px); }
     100% { transform: translate(0,0); }
 }
-.flash-red { color: #ff0000 !important; }
-.flash-green { color: #00ff00 !important; }
