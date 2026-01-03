@@ -6,7 +6,7 @@ body {
     background: transparent;
     font-family: 'Anton', sans-serif;
     overflow: hidden;
-    /* Trava o tamanho em Full HD para não desalinhar no OBS */
+    /* Trava a resolução para evitar que o texto "flutue" errado no OBS */
     width: 1920px;
     height: 1080px;
 }
@@ -22,7 +22,7 @@ body {
     position: absolute;
     top: 50px;
     left: 50px;
-    width: 350px; /* Tamanho ajustado */
+    width: 350px; /* Tamanho ideal para não ocupar a tela toda */
     height: auto;
     filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.6));
     z-index: 2;
@@ -31,10 +31,10 @@ body {
 /* GRUPO DE TEXTO (NOME E VIDA) */
 .info-direita {
     position: absolute;
-    /* Correção: Sobe o texto para a altura do ombro */
-    top: 180px; 
-    /* Correção: Traz o texto para perto da imagem (estava 580px) */
-    left: 360px; 
+    /* AJUSTE 1: Sobe o texto para a altura do peito do personagem */
+    top: 160px; 
+    /* AJUSTE 2: Traz o texto para "dentro" da área da imagem */
+    left: 330px; 
     z-index: 3;
     text-align: left;
 }
@@ -59,9 +59,9 @@ body {
 /* PD (AZUL) */
 #pd {
     position: absolute;
-    /* Correção: Sobe o PD para logo abaixo do pé da imagem (estava 820px) */
-    top: 400px; 
-    left: 80px;
+    /* AJUSTE 3: Sobe o PD para perto dos pés do personagem */
+    top: 420px; 
+    left: 60px;
     font-size: 55px;
     color: #00e5ff;
     font-weight: bold;
